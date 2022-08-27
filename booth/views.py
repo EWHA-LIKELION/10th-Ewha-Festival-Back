@@ -137,10 +137,14 @@ class CommentView(views.APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
-        serializer = self.serializer_class(data=request.data)
-        booth = get_object_or_404(Booth, pk=pk)
+        data = {
+            'booth': pk,
+            'user': request.user.id,
+            'content': request.data.get('content')
+        }
+        serializer = self.serializer_class(data=data)
         if serializer.is_valid():
-            serializer.save(user=request.user, booth=booth)
+            serializer.save()
             return Response({'message': '댓글 작성 성공', 'data': serializer.data}, status=HTTP_200_OK)
         else:
             return Response({'message': '댓글 작성 실패', 'data': serializer.errors}, status=HTTP_400_BAD_REQUEST)
