@@ -56,12 +56,14 @@ class Booth(TimeStamp):
 
 
 class Image(TimeStamp):
-    booth = models.ForeignKey(Booth, on_delete=models.CASCADE, related_name='images')
+    booth = models.ForeignKey(
+        Booth, on_delete=models.CASCADE, related_name='images')
     image = models.FileField()
 
 
 class Menu(TimeStamp):
-    booth = models.ForeignKey(Booth, on_delete=models.CASCADE, related_name='menus')
+    booth = models.ForeignKey(
+        Booth, on_delete=models.CASCADE, related_name='menus')
     menu = models.TextField()
     price = models.PositiveIntegerField()
     is_soldout = models.BooleanField(default=False)
@@ -71,4 +73,3 @@ class Comment(TimeStamp):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     booth = models.ForeignKey(Booth, on_delete=models.CASCADE)
     content = models.TextField()
-

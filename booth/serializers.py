@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Booth, Menu, Image
+from .models import Booth, Comment, Menu, Image
 
 
 class MenuSerializer(serializers.ModelSerializer):
@@ -11,10 +11,11 @@ class MenuSerializer(serializers.ModelSerializer):
 class BoothListSerializer(serializers.ModelSerializer):
     day = serializers.StringRelatedField(many=True, read_only=True)
     is_liked = serializers.BooleanField(default=False)
-    
+
     class Meta:
         model = Booth
-        fields = ['id', 'user', 'day', 'college', 'name', 'number', 'thumnail', 'description', 'is_liked', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'day', 'college', 'name', 'number',
+                  'thumnail', 'description', 'is_liked', 'created_at', 'updated_at']
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -28,7 +29,14 @@ class BoothDetailSerializer(serializers.ModelSerializer):
     menus = MenuSerializer(read_only=True, many=True)
     images = ImageSerializer(read_only=True, many=True)
     is_liked = serializers.BooleanField(default=False)
-    
+
     class Meta:
         model = Booth
-        fields = ['id', 'user', 'day', 'college', 'name', 'number', 'thumnail', 'notice', 'description', 'images', 'menus', 'is_liked', 'like', 'created_at', 'updated_at']
+        fields = ['id', 'user', 'day', 'college', 'name', 'number', 'thumnail', 'notice',
+                  'description', 'images', 'menus', 'is_liked', 'like', 'created_at', 'updated_at']
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['booth', 'user', 'content', 'created_at', 'updated_at']
